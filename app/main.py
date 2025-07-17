@@ -68,7 +68,7 @@ class Dictionary:
         except KeyError:
             return default
 
-    def pop(self, key: Any, default: Any = None) -> None:
+    def pop(self, key: Any, default: Any = None) -> Any:
         index = hash(key) % self.capacity
         bucket = self.buckets[index]
 
