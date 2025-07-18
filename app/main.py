@@ -1,8 +1,8 @@
-from typing import Any, Iterator
+from typing import Any, Iterator, Hashable
 
 
 class Node:
-    def __init__(self, key: Any, value: Any) -> None:
+    def __init__(self, key: Hashable, value: Any) -> None:
         self.key = key
         self.hash = hash(key)
         self.value = value
@@ -14,15 +14,15 @@ class Node:
 class Dictionary:
     def __init__(
             self,
-            initial_capacity: Any = 8,
-            load_factor: Any = (2 / 3)
+            initial_capacity: int | float = 8,
+            load_factor: int | float = (2 / 3)
     ) -> None:
         self.capacity = initial_capacity
         self.size = 0
         self.load_factor = load_factor
         self.buckets = [[] for _ in range(self.capacity)]
 
-    def __setitem__(self, key: Any, value: Any) -> None:
+    def __setitem__(self, key: Hashable, value: Any) -> None:
         if self.size / self.capacity > self.load_factor:
             self._resize()
 
@@ -37,7 +37,7 @@ class Dictionary:
         bucket.append(Node(key, value))
         self.size += 1
 
-    def __getitem__(self, key: Any) -> Any:
+    def __getitem__(self, key: Hashable) -> Any:
         index = hash(key) % self.capacity
         bucket = self.buckets[index]
 
@@ -50,7 +50,7 @@ class Dictionary:
     def __len__(self) -> int:
         return self.size
 
-    def __delitem__(self, key: Any) -> None:
+    def __delitem__(self, key: Hashable) -> None:
         index = hash(key) % self.capacity
         bucket = self.buckets[index]
 
@@ -62,13 +62,13 @@ class Dictionary:
 
         raise KeyError(f"Key '{key}' not found.")
 
-    def get(self, key: Any, default: Any = None) -> Any:
+    def get(self, key: Hashable, default: Hashable = None) -> Any:
         try:
             return self[key]
         except KeyError:
             return default
 
-    def pop(self, key: Any, default: Any = None) -> Any:
+    def pop(self, key: Hashable, default: Hashable = None) -> Any:
         index = hash(key) % self.capacity
         bucket = self.buckets[index]
 
